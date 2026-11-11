@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware Chronicles: The Lost Core — Akademi Teknologi</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Futuristic/RPG Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkNavy: '#101A27',
+                        navyCard: '#182638',
+                        ancientGold: '#DFBD78',
+                        emeraldCore: '#287B65',
+                        steelSilver: '#AAB8C2',
+                        mysticPurple: '#7957A5',
+                        bronzeMetal: '#9A7044',
+                        accretiaBlue: '#00F0FF',
+                        sylvanEmerald: '#10B981',
+                        bellatorRed: '#EF4444'
+                    },
+                    fontFamily: {
+                        header: ['Cinzel', 'serif'],
+                        tech: ['Rajdhani', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'gold-glow': '0 0 15px rgba(223, 189, 120, 0.4)',
+                        'emerald-glow': '0 0 15px rgba(40, 123, 101, 0.5)',
+                        'purple-glow': '0 0 15px rgba(121, 87, 165, 0.5)',
+                        'blue-glow': '0 0 15px rgba(0, 240, 255, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar & RPG Aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101A27;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #DFBD78;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b59858;
+        }
+
+        /* Hexagonal / Sci-Fi Border Cutout Effect */
+        .rpg-panel {
+            clip-path: polygon(0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        /* Ambient Glow & Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 10px rgba(223, 189, 120, 0.8)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 25px rgba(223, 189, 120, 1)); }
+        }
+        .pulse-core {
+            animation: pulseGlow 3s infinite;
+        }
+
+        /* Touch & Drag Styling */
+        .draggable-item {
+            touch-action: none;
+            user-select: none;
+        }
+
+        .drop-target.hovered {
+            border-color: #DFBD78;
+            background-color: rgba(223, 189, 120, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-darkNavy text-slate-200 font-body min-h-screen flex flex-col justify-between selection:bg-ancientGold selection:text-darkNavy overflow-x-hidden">
+
+    <!-- HUD BACKGROUND EFFECT -->
+    <div class="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-darkNavy to-black pointer-events-none -z-10 opacity-90"></div>
+    <div class="fixed inset-0 bg-[url('https://png.pngtree.com/thumb_back/fh260/background/20210902/pngtree-tech-line-structure-space-fantasy-blue-background-image_785601.jpg')] bg-cover bg-center mix-blend-overlay opacity-15 pointer-events-none -z-10"></div>
+
+    <!-- HEADER NAVIGATION HUD -->
+    <header class="sticky top-0 z-50 bg-darkNavy/90 backdrop-blur-md border-b border-ancientGold/30 px-4 lg:px-8 py-3 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-ancientGold to-bronzeMetal flex items-center justify-center text-darkNavy text-xl font-black shadow-gold-glow border border-yellow-200">
+                    <i class="fa-solid to-current fa-microchip"></i>
+                </div>
+                <div>
+                    <h1 class="font-header font-bold text-lg md:text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-ancientGold via-amber-200 to-yellow-500">
+                        HARDWARE CHRONICLES
+                    </h1>
+                    <p class="text-xs font-tech tracking-widest text-emeraldCore uppercase font-semibold">The Lost Core — Akademi Teknologi</p>
+                </div>
+            </div>
+
+            <!-- RPG Navigation Tabs -->
+            <nav class="flex flex-wrap justify-center items-center gap-1 sm:gap-2">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-1.5 rounded text-sm font-tech font-bold uppercase tracking-wider transition-all border border-transparent hover:border-ancientGold/50 hover:bg-ancientGold/10 text-ancientGold bg-ancientGold/20 border-ancientGold shadow-gold-glow">
+                    <i class="fa-solid fa-house mr-1"></i> Home
+                </button>
+                <button onclick="switchTab('tujuan')" id="nav-tujuan" class="nav-btn px-3 py-1.5 rounded text-sm font-tech font-bold uppercase tracking-wider transition-all border border-transparent hover:border-ancientGold/50 hover:bg-ancientGold/10 text-slate-300">
+                    <i class="fa-solid fa-scroll mr-1"></i> Misi
+                </button>
+                <button onclick="switchTab('materi')" id="nav-materi" class="nav-btn px-3 py-1.5 rounded text-sm font-tech font-bold uppercase tracking-wider transition-all border border-transparent hover:border-ancientGold/50 hover:bg-ancientGold/10 text-slate-300">
+                    <i class="fa-solid fa-book-journal-whills mr-1"></i> Materi
+                </button>
+                <button onclick="switchTab('kuis')" id="nav-kuis" class="nav-btn px-3 py-1.5 rounded text-sm font-tech font-bold uppercase tracking-wider transition-all border border-transparent hover:border-ancientGold/50 hover:bg-ancientGold/10 text-slate-300">
+                    <i class="fa-solid fa-swords mr-1"></i> Battle Quiz
+                </button>
+                <button onclick="switchTab('dragdrop')" id="nav-dragdrop" class="nav-btn px-3 py-1.5 rounded text-sm font-tech font-bold uppercase tracking-wider transition-all border border-transparent hover:border-ancientGold/50 hover:bg-ancientGold/10 text-slate-300">
+                    <i class="fa-solid fa-puzzle-piece mr-1"></i> Arena Puzzle
+                </button>
+                <button onclick="switchTab('tentang')" id="nav-tentang" class="nav-btn px-3 py-1.5 rounded text-sm font-tech font-bold uppercase tracking-wider transition-all border border-transparent hover:border-ancientGold/50 hover:bg-ancientGold/10 text-slate-300">
+                    <i class="fa-solid fa-shield-halved mr-1"></i> Info
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8">
+
+        <!-- ================= PAGE 1: HOME ================= -->
+        <section id="page-home" class="tab-page space-y-10">
+            <!-- Hero Banner -->
+            <div class="relative rounded-2xl bg-gradient-to-r from-navyCard/90 via-darkNavy/80 to-navyCard/90 border-2 border-ancientGold/40 p-6 md:p-10 shadow-2xl overflow-hidden rpg-panel">
+                <div class="absolute -right-10 -bottom-10 w-96 h-96 bg-emeraldCore/20 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-10 -top-10 w-96 h-96 bg-mysticPurple/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-4 text-left">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ancientGold/10 border border-ancientGold/40 text-ancientGold font-tech text-xs tracking-widest uppercase">
+                            <i class="fa-solid fa-sparkles"></i> World Status: Core Offline
+                        </div>
+                        <h2 class="font-header text-3xl md:text-5xl font-black tracking-wide text-white leading-tight">
+                            SELAMAT DATANG DI <br/>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-ancientGold via-yellow-200 to-amber-500">HARDWARE CHRONICLES</span>
+                        </h2>
+                        <p class="text-slate-300 font-body leading-relaxed text-sm md:text-base">
+                            Dunia komputasi Kerajaan Aethelgard hancur setelah <span class="text-ancientGold font-semibold">Core Hardware Utama</span> mengalami kegagalan sistem. Sebagai Pahlawan Akademi Teknologi, tugasmu adalah mempelajari seluruh rahasia elemen hardware komputer, mengalahkan monster bug, dan memulihkan Inti Komputasi!
+                        </p>
+                        
+                        <div class="pt-4 flex flex-wrap gap-4">
+                            <button onclick="switchTab('tujuan')" class="px-6 py-3 rounded-lg font-tech font-bold uppercase tracking-wider bg-gradient-to-r from-ancientGold to-amber-600 hover:from-amber-400 hover:to-ancientGold text-darkNavy shadow-gold-glow transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                                <i class="fa-solid fa-play"></i> Start Adventure
+                            </button>
+                            <button onclick="switchTab('materi')" class="px-6 py-3 rounded-lg font-tech font-bold uppercase tracking-wider bg-navyCard hover:bg-slate-800 text-ancientGold border border-ancientGold/40 transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-book-open"></i> Pelajari Ensiklopedia
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Crystal Core Visual -->
+                    <div class="lg:col-span-5 flex justify-center items-center">
+                        <div class="relative w-64 h-64 md:w-80 md:h-80 flex items-center justify-center">
+                            <!-- Rotating Magic Circles -->
+                            <div class="absolute inset-0 border-2 border-dashed border-ancientGold/40 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                            <div class="absolute inset-4 border border-cyan-500/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                            <!-- Glowing Core Crystal -->
+                            <div class="pulse-core text-7xl md:text-9xl text-amber-300 filter drop-shadow-[0_0_20px_rgba(239,189,120,0.8)]">
+                                <i class="fa-solid fa-gem"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FACTION SELECTION PANEL -->
+            <div class="space-y-6">
+                <div class="text-center space-y-2">
+                    <h3 class="font-header text-2xl md:text-3xl font-bold text-ancientGold tracking-wide">PILIH FAKSI REKAN PETUALANG</h3>
+                    <p class="text-slate-400 text-sm font-tech tracking-widest uppercase">Pilih faksi untuk mendampingi perjalanan tokomu di Akademi</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Faksi 1: SYLVAN -->
+                    <div id="card-sylvan" onclick="selectFaction('sylvan')" class="faction-card group relative bg-navyCard/80 border-2 border-emerald-500/30 hover:border-emerald-400 rounded-xl p-5 cursor-pointer transition-all duration-300 hover:shadow-emerald-glow flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="px-2.5 py-1 rounded bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 text-xs font-tech font-bold uppercase">Sylvan Realm</span>
+                                <i class="fa-solid fa-leaf text-emerald-400 text-xl"></i>
+                            </div>
+                            <div class="text-center py-4">
+                                <div class="w-24 h-24 mx-auto rounded-full bg-emerald-900/40 border-2 border-emerald-400 flex items-center justify-center text-4xl text-emerald-300 mb-3 group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-feather-pointed"></i>
+                                </div>
+                                <h4 class="font-header font-bold text-xl text-emerald-300">SYLVAN</h4>
+                                <p class="text-xs text-emerald-400/80 font-tech">Elf Guardian</p>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Penjaga kristal alam dengan armor zamrud elegan &amp; busur energi. Memiliki keahlian pengenalan perangkat lunak &amp; logika kuno yang harmonis.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-emerald-500/20 flex justify-between items-center text-xs text-emerald-400 font-tech">
+                            <span>Aksen: Emerald Green</span>
+                            <span class="faction-status group-hover:underline">Pilih Faksi &rarr;</span>
+                        </div>
+                    </div>
+
+                    <!-- Faksi 2: BELLATOR -->
+                    <div id="card-bellator" onclick="selectFaction('bellator')" class="faction-card group relative bg-navyCard/80 border-2 border-ancientGold/30 hover:border-amber-400 rounded-xl p-5 cursor-pointer transition-all duration-300 hover:shadow-gold-glow flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="px-2.5 py-1 rounded bg-amber-950/80 border border-amber-500/40 text-amber-400 text-xs font-tech font-bold uppercase">Royal Citadel</span>
+                                <i class="fa-solid fa-shield-cat text-amber-400 text-xl"></i>
+                            </div>
+                            <div class="text-center py-4">
+                                <div class="w-24 h-24 mx-auto rounded-full bg-amber-900/40 border-2 border-ancientGold flex items-center justify-center text-4xl text-amber-300 mb-3 group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-helmet-safety"></i>
+                                </div>
+                                <h4 class="font-header font-bold text-xl text-amber-300">BELLATOR</h4>
+                                <p class="text-xs text-amber-400/80 font-tech">Mechanical Warrior</p>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Ksatria kerajaan berarmor emas futuristik dan perunggu. Menguasai rekayasa mekanis, arsitektur CPU, serta daya tahan pemrosesan data tinggi.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-amber-500/20 flex justify-between items-center text-xs text-amber-400 font-tech">
+                            <span>Aksen: Gold &amp; Bronze</span>
+                            <span class="faction-status group-hover:underline">Pilih Faksi &rarr;</span>
+                        </div>
+                    </div>
+
+                    <!-- Faksi 3: ACCRETIA -->
+                    <div id="card-accretia" onclick="selectFaction('accretia')" class="faction-card group relative bg-navyCard/80 border-2 border-cyan-500/30 hover:border-cyan-400 rounded-xl p-5 cursor-pointer transition-all duration-300 hover:shadow-blue-glow flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-start">
+                                <span class="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 text-xs font-tech font-bold uppercase">Cyborg Legion</span>
+                                <i class="fa-solid fa-robot text-cyan-400 text-xl"></i>
+                            </div>
+                            <div class="text-center py-4">
+                                <div class="w-24 h-24 mx-auto rounded-full bg-cyan-900/40 border-2 border-cyan-400 flex items-center justify-center text-4xl text-cyan-300 mb-3 group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-headset"></i>
+                                </div>
+                                <h4 class="font-header font-bold text-xl text-cyan-300">ACCRETIA</h4>
+                                <p class="text-xs text-cyan-400/80 font-tech">Android Legion</p>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Pasukan robot cyborg industrial bermata neon biru. Memiliki kalkulasi presisi tinggi terhadap memori, bus data, dan penyimpanan sistem.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-cyan-500/20 flex justify-between items-center text-xs text-cyan-400 font-tech">
+                            <span>Aksen: Steel &amp; Neon Blue</span>
+                            <span class="faction-status group-hover:underline">Pilih Faksi &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STUDENT PROGRESS & FACTION STATUS HUD -->
+            <div class="bg-navyCard/60 border border-ancientGold/30 rounded-xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div id="avatar-display" class="w-16 h-16 rounded-full bg-amber-500/20 border-2 border-ancientGold flex items-center justify-center text-3xl text-ancientGold shadow-gold-glow">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-tech text-slate-400 uppercase tracking-widest">Avatar Petualang Aktif</div>
+                        <h4 id="faction-name-display" class="font-header font-bold text-xl text-ancientGold">BELLATOR — Mechanical Warrior</h4>
+                        <p id="faction-desc-display" class="text-xs text-slate-300">Ksatria Rekayasa Komputasi Kerajaan</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-6 w-full md:w-auto border-t md:border-t-0 md:border-l border-slate-700 pt-4 md:pt-0 md:pl-6">
+                    <div>
+                        <div class="text-xs font-tech text-slate-400 uppercase">Misi Selesai</div>
+                        <div class="font-tech text-xl font-bold text-emeraldCore" id="hud-completed-missions">0 / 4</div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-tech text-slate-400 uppercase">Skor Battle Quiz</div>
+                        <div class="font-tech text-xl font-bold text-ancientGold" id="hud-quiz-score">0 Pts</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 2: TUJUAN PEMBELAJARAN (MISI) ================= -->
+        <section id="page-tujuan" class="tab-page hidden space-y-8">
+            <div class="text-center max-w-3xl mx-auto space-y-3">
+                <span class="px-3 py-1 rounded-full bg-ancientGold/10 border border-ancientGold/40 text-ancientGold font-tech text-xs uppercase tracking-widest">Quest Map</span>
+                <h2 class="font-header text-3xl md:text-4xl font-bold text-white">TUJUAN PEMBELAJARAN & MAP MISI</h2>
+                <p class="text-slate-300 text-sm">Selesaikan seluruh quest di bawah ini untuk menjadi Master Hardware Komputer!</p>
+            </div>
+
+            <!-- Learning Objectives Grid / Mission Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Mission 1 -->
+                <div class="bg-navyCard/90 border-2 border-emerald-500/30 rounded-xl p-6 relative overflow-hidden group hover:border-emerald-400 transition-all">
+                    <div class="absolute -right-6 -bottom-6 text-7xl text-emerald-500/10 font-black font-header">01</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-emerald-400 text-2xl">
+                            <i class="fa-solid fa-compass-drafting"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-emerald-400 font-tech font-bold uppercase">Mission I</span>
+                            <h3 class="font-header text-xl font-bold text-white">Hardware Explorer</h3>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-xs mt-1"></i>
+                            <span>Siswa mampu memahami definisi dasar dan konsep fisik hardware komputer.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-xs mt-1"></i>
+                            <span>Siswa mampu mengelompokkan komponen hardware berdasarkan kategori fungsinya.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Mission 2 -->
+                <div class="bg-navyCard/90 border-2 border-amber-500/30 rounded-xl p-6 relative overflow-hidden group hover:border-amber-400 transition-all">
+                    <div class="absolute -right-6 -bottom-6 text-7xl text-amber-500/10 font-black font-header">02</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-amber-500/20 border border-amber-400 flex items-center justify-center text-amber-400 text-2xl">
+                            <i class="fa-solid fa-keyboard"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-amber-400 font-tech font-bold uppercase">Mission II</span>
+                            <h3 class="font-header text-xl font-bold text-white">Input Device Mission</h3>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-400 text-xs mt-1"></i>
+                            <span>Mengidentifikasi perangkat input (Keyboard, Mouse, Scanner, Webcam, Mic).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-400 text-xs mt-1"></i>
+                            <span>Menjelaskan mekanisme bagaimana instruksi luar dimasukkan ke sistem komputer.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Mission 3 -->
+                <div class="bg-navyCard/90 border-2 border-purple-500/30 rounded-xl p-6 relative overflow-hidden group hover:border-purple-400 transition-all">
+                    <div class="absolute -right-6 -bottom-6 text-7xl text-purple-500/10 font-black font-header">03</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-purple-500/20 border border-purple-400 flex items-center justify-center text-purple-400 text-2xl">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-purple-400 font-tech font-bold uppercase">Mission III</span>
+                            <h3 class="font-header text-xl font-bold text-white">Processing Core Mission</h3>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-purple-400 text-xs mt-1"></i>
+                            <span>Menjelaskan fungsi CPU, GPU, Motherboard, dan RAM dalam mengolah perintah data.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-purple-400 text-xs mt-1"></i>
+                            <span>Menganalisis hubungan interaksi antar-perangkat pemrosesan utama.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Mission 4 -->
+                <div class="bg-navyCard/90 border-2 border-cyan-500/30 rounded-xl p-6 relative overflow-hidden group hover:border-cyan-400 transition-all">
+                    <div class="absolute -right-6 -bottom-6 text-7xl text-cyan-500/10 font-black font-header">04</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-lg bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 text-2xl">
+                            <i class="fa-solid fa-hard-drive"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-cyan-400 font-tech font-bold uppercase">Mission IV</span>
+                            <h3 class="font-header text-xl font-bold text-white">Output &amp; Storage Mission</h3>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-xs mt-1"></i>
+                            <span>Memahami media penyimpanan data (HDD, SSD, Flashdisk) &amp; perangkat luaran (Monitor, Printer).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400 text-xs mt-1"></i>
+                            <span>Membedakan penyimpanan volatil (RAM) dan non-volatil (Storage).</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 3: MATERI PEMBELAJARAN ================= -->
+        <section id="page-materi" class="tab-page hidden space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-ancientGold/20 pb-4">
+                <div>
+                    <h2 class="font-header text-3xl font-bold text-ancientGold">ENSIKLOPEDIA HARDWARE</h2>
+                    <p class="text-sm text-slate-400">Arsip Pengetahuan Komputasi Kerajaan Aethelgard</p>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterMateri('all')" class="materi-filter-btn active px-3 py-1 rounded font-tech text-xs uppercase font-bold bg-ancientGold text-darkNavy">Semua</button>
+                    <button onclick="filterMateri('input')" class="materi-filter-btn px-3 py-1 rounded font-tech text-xs uppercase font-bold bg-navyCard text-slate-300 hover:text-ancientGold">Input</button>
+                    <button onclick="filterMateri('proses')" class="materi-filter-btn px-3 py-1 rounded font-tech text-xs uppercase font-bold bg-navyCard text-slate-300 hover:text-ancientGold">Proses</button>
+                    <button onclick="filterMateri('output')" class="materi-filter-btn px-3 py-1 rounded font-tech text-xs uppercase font-bold bg-navyCard text-slate-300 hover:text-ancientGold">Output</button>
+                    <button onclick="filterMateri('storage')" class="materi-filter-btn px-3 py-1 rounded font-tech text-xs uppercase font-bold bg-navyCard text-slate-300 hover:text-ancientGold">Storage</button>
+                    <button onclick="filterMateri('pendukung')" class="materi-filter-btn px-3 py-1 rounded font-tech text-xs uppercase font-bold bg-navyCard text-slate-300 hover:text-ancientGold">Pendukung</button>
+                </div>
+            </div>
+
+            <!-- Dynamic Encyclopedia Container -->
+            <div id="materi-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Inject Materials via JavaScript -->
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 4: KUIS INTERAKTIF (BATTLE QUIZ) ================= -->
+        <section id="page-kuis" class="tab-page hidden space-y-6">
+            <!-- Quiz Header HUD -->
+            <div class="bg-navyCard/90 border border-ancientGold/40 rounded-xl p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-lg bg-red-950/80 border border-red-500/50 flex items-center justify-center text-red-400 text-2xl">
+                        <i class="fa-solid fa-dragon"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-header text-xl md:text-2xl font-bold text-white">CORE GUARDIAN BATTLE</h2>
+                        <p class="text-xs font-tech text-slate-400">Jawab pertanyaan untuk mengalahkan Monster Bug Inti Sistem!</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-6 w-full md:w-auto">
+                    <!-- Progress Bar -->
+                    <div class="w-full md:w-48 space-y-1">
+                        <div class="flex justify-between text-xs font-tech">
+                            <span class="text-slate-400">SOAL</span>
+                            <span id="quiz-progress-text" class="text-ancientGold font-bold">1 / 20</span>
+                        </div>
+                        <div class="w-full bg-darkNavy rounded-full h-2.5 overflow-hidden border border-ancientGold/30">
+                            <div id="quiz-progress-bar" class="bg-gradient-to-r from-ancientGold to-amber-500 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+                        </div>
+                    </div>
+
+                    <div class="text-right min-w-[80px]">
+                        <span class="text-xs font-tech text-slate-400 block">SKOR</span>
+                        <span id="current-score" class="font-tech text-2xl font-bold text-emerald-400">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Quiz Box -->
+            <div id="quiz-box" class="bg-navyCard/90 border-2 border-ancientGold/30 rounded-2xl p-6 md:p-8 shadow-2xl relative rpg-panel">
+                <div class="mb-6 space-y-2">
+                    <span id="quiz-category-tag" class="px-3 py-1 rounded bg-ancientGold/10 border border-ancientGold/30 text-ancientGold text-xs font-tech uppercase font-bold">Kategori Hardware</span>
+                    <h3 id="quiz-question" class="font-header text-lg md:text-2xl font-semibold text-white leading-snug">
+                        Loading pertanyaan...
+                    </h3>
+                </div>
+
+                <!-- Answer Options -->
+                <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                    <!-- Dynamic Options Injected Here -->
+                </div>
+
+                <!-- Feedback Banner -->
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl border mb-4 font-body text-sm flex items-start gap-3">
+                    <i id="feedback-icon" class="text-xl mt-0.5"></i>
+                    <div>
+                        <div id="feedback-title" class="font-bold font-header"></div>
+                        <div id="feedback-text" class="text-xs mt-1"></div>
+                    </div>
+                </div>
+
+                <!-- Next / Action Button -->
+                <div class="flex justify-end pt-4 border-t border-slate-700/60">
+                    <button id="btn-next-question" onclick="nextQuestion()" disabled class="px-6 py-2.5 rounded-lg font-tech font-bold uppercase tracking-wider bg-slate-700 text-slate-400 cursor-not-allowed transition-all">
+                        Pertanyaan Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Modal (Hidden by Default) -->
+            <div id="quiz-result-modal" class="hidden bg-navyCard border-2 border-ancientGold rounded-2xl p-8 text-center space-y-6 shadow-2xl max-w-xl mx-auto rpg-panel">
+                <div class="w-24 h-24 mx-auto rounded-full bg-ancientGold/20 border-2 border-ancientGold flex items-center justify-center text-5xl text-ancientGold pulse-core">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+
+                <div>
+                    <h3 class="font-header text-2xl font-bold text-white">BATTLE SELESAI!</h3>
+                    <p class="text-sm text-slate-400 font-tech">Hasil Evaluasi Penguasaan Hardware Komputer</p>
+                </div>
+
+                <div class="bg-darkNavy/80 p-6 rounded-xl border border-ancientGold/30 space-y-3">
+                    <div class="text-xs font-tech text-slate-400 uppercase">Total Poin Diperoleh</div>
+                    <div id="result-final-score" class="font-tech text-5xl font-black text-ancientGold">180 / 200</div>
+                    <div class="pt-2">
+                        <span class="text-xs text-slate-400">PREDIKAT HERO:</span>
+                        <div id="result-rank" class="font-header text-xl font-bold text-emerald-400">HARDWARE MASTER</div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-4">
+                    <button onclick="restartQuiz()" class="px-6 py-3 rounded-lg font-tech font-bold uppercase tracking-wider bg-gradient-to-r from-ancientGold to-amber-600 text-darkNavy shadow-gold-glow hover:opacity-90 transition-all">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Ulangi Battle
+                    </button>
+                    <button onclick="switchTab('dragdrop')" class="px-6 py-3 rounded-lg font-tech font-bold uppercase tracking-wider bg-slate-800 text-ancientGold border border-ancientGold/40 hover:bg-slate-700 transition-all">
+                        Lanjut ke Puzzle Arena
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 5: DRAG AND DROP (ARENA PUZZLE) ================= -->
+        <section id="page-dragdrop" class="tab-page hidden space-y-6">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <span class="px-3 py-1 rounded-full bg-ancientGold/10 border border-ancientGold/40 text-ancientGold font-tech text-xs uppercase tracking-widest">Puzzle Arena</span>
+                <h2 class="font-header text-3xl font-bold text-white">REKONTREKSI INTI SYSTEM</h2>
+                <p class="text-slate-300 text-sm">Tarik perangkat hardware di sebelah kiri dan tempatkan pada slot fungsi yang tepat di sebelah kanan!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                <!-- Draggable Items Container -->
+                <div class="md:col-span-5 bg-navyCard/90 border border-ancientGold/30 rounded-xl p-5 space-y-4">
+                    <h3 class="font-header font-bold text-ancientGold border-b border-ancientGold/20 pb-2 text-center">
+                        <i class="fa-solid fa-box-open mr-2"></i> PERANGKAT HARDWARE
+                    </h3>
+                    <div id="drag-items-list" class="space-y-3 min-h-[300px]">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Drop Targets Container -->
+                <div class="md:col-span-7 bg-navyCard/90 border border-ancientGold/30 rounded-xl p-5 space-y-4">
+                    <h3 class="font-header font-bold text-ancientGold border-b border-ancientGold/20 pb-2 text-center">
+                        <i class="fa-solid fa-bullseye mr-2"></i> SLOT FUNGSI SISTEM
+                    </h3>
+                    <div id="drop-targets-list" class="space-y-3">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control & Status Footer -->
+            <div class="bg-navyCard/60 border border-slate-700 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div id="puzzle-score-status" class="font-tech text-lg font-semibold text-emerald-400">
+                    Skor Puzzle: 0 / 6 Cocok
+                </div>
+                <button onclick="initDragDropGame()" class="px-5 py-2.5 rounded-lg font-tech font-bold uppercase tracking-wider bg-ancientGold text-darkNavy hover:bg-yellow-400 shadow-gold-glow transition-all">
+                    <i class="fa-solid fa-arrows-rotate mr-1"></i> Reset Game
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 6: TENTANG (ABOUT) ================= -->
+        <section id="page-tentang" class="tab-page hidden space-y-8">
+            <div class="bg-navyCard/90 border-2 border-ancientGold/40 rounded-2xl p-6 md:p-10 shadow-2xl relative overflow-hidden rpg-panel space-y-8">
+                <!-- Header Info -->
+                <div class="border-b border-ancientGold/30 pb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="text-xs font-tech text-emeraldCore uppercase tracking-widest font-bold">Media Pembelajaran Interaktif</span>
+                        <h2 class="font-header text-3xl md:text-4xl font-black text-ancientGold">HARDWARE CHRONICLES</h2>
+                        <p class="text-sm text-slate-300">The Lost Core — Akademi Teknologi Informatika</p>
+                    </div>
+                    <div class="px-4 py-2 rounded-lg bg-darkNavy border border-ancientGold/40 text-center">
+                        <span class="text-xs font-tech text-slate-400 block">DEVELOPER / PENGEMBANG</span>
+                        <span class="font-header font-bold text-emerald-400 text-lg">SATRIAJI</span>
+                    </div>
+                </div>
+
+                <!-- Grid Details -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-darkNavy/60 p-5 rounded-xl border border-slate-700/60 space-y-2">
+                        <i class="fa-solid fa-users text-ancientGold text-2xl mb-1"></i>
+                        <h3 class="font-header font-bold text-white">Sasaran Pengguna</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Dirancang khusus untuk siswa Sekolah Menengah Pertama (SMP) Kelas 7, 8, dan 9 untuk menguasai konsep dasar hardware komputer secara menyenangkan.
+                        </p>
+                    </div>
+
+                    <div class="bg-darkNavy/60 p-5 rounded-xl border border-slate-700/60 space-y-2">
+                        <i class="fa-solid fa-gamepad text-ancientGold text-2xl mb-1"></i>
+                        <h3 class="font-header font-bold text-white">Konsep Gamifikasi</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Menggabungkan atmosfer visual MMORPG Futuristic Medieval dengan battle quiz dan arena puzzle interaktif untuk meningkatkan keterlibatan siswa.
+                        </p>
+                    </div>
+
+                    <div class="bg-darkNavy/60 p-5 rounded-xl border border-slate-700/60 space-y-2">
+                        <i class="fa-solid fa-laptop-code text-ancientGold text-2xl mb-1"></i>
+                        <h3 class="font-header font-bold text-white">Platform &amp; Aksesibilitas</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Aplikasi berbasis Single Page Web (HTML5/JS/Tailwind CSS), responsif di smartphone, tablet, maupun laptop tanpa perlu database/server tambahan.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- User Guide -->
+                <div class="bg-darkNavy/80 p-6 rounded-xl border border-ancientGold/20 space-y-4">
+                    <h3 class="font-header font-bold text-xl text-ancientGold flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info"></i> Petunjuk Penggunaan Aplikasi
+                    </h3>
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-slate-300">
+                        <li>Pilih faksi pahlawan (Sylvan, Bellator, atau Accretia) di halaman **Home** sebagai identitas tokomu.</li>
+                        <li>Pelajari tujuan &amp; peta capaian misi di halaman **Misi**.</li>
+                        <li>Buka menu **Materi** untuk membaca ensiklopedia komponen hardware beserta contohnya dalam kehidupan sehari-hari.</li>
+                        <li>Uji pemahamanmu pada **Battle Quiz** untuk mendapatkan skor dan predikat gelar Hero.</li>
+                        <li>Selesaikan tantangan di **Arena Puzzle** dengan mencocokkan nama perangkat ke slot fungsi yang tepat.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DETAIL MATERI (Encyclopedia Modal) -->
+    <div id="materi-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-navyCard border-2 border-ancientGold/60 rounded-2xl max-w-2xl w-full p-6 space-y-6 relative rpg-panel shadow-2xl">
+            <button onclick="closeMateriModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center border border-slate-600">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-4">
+                <div id="modal-item-icon" class="w-16 h-16 rounded-xl bg-ancientGold/10 border border-ancientGold flex items-center justify-center text-3xl text-ancientGold">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <div>
+                    <span id="modal-item-category" class="text-xs font-tech uppercase font-bold text-emeraldCore">Perangkat Proses</span>
+                    <h3 id="modal-item-name" class="font-header text-2xl font-bold text-white">Central Processing Unit (CPU)</h3>
+                </div>
+            </div>
+
+            <div class="space-y-4 text-sm text-slate-300">
+                <div>
+                    <h4 class="font-header text-ancientGold font-bold mb-1">Fungsi Utama:</h4>
+                    <p id="modal-item-desc">Penjelasan lengkap mengenai fungsi perangkat...</p>
+                </div>
+
+                <div class="bg-darkNavy/70 p-4 rounded-xl border border-slate-700">
+                    <h4 class="font-header text-emeraldCore font-bold mb-1">Contoh Penggunaan Sehari-hari:</h4>
+                    <p id="modal-item-usage">Contoh penerapan di kehidupan nyata...</p>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button onclick="closeMateriModal()" class="px-5 py-2 rounded font-tech font-bold uppercase bg-ancientGold text-darkNavy hover:bg-yellow-400">
+                    Tutup Informasi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-darkNavy border-t border-ancientGold/20 py-4 text-center text-xs font-tech text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>HARDWARE CHRONICLES: THE LOST CORE &copy; 2026. All Rights Reserved.</div>
+            <div class="text-ancientGold">Dikembangkan oleh: <span class="font-bold">SATRIAJI</span></div>
+        </div>
+    </footer>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ================= STATE MANAGEMENT ================= */
+        let activeFaction = 'bellator';
+        let userQuizScore = 0;
+        let completedMissions = 0;
+
+        // Encyclopedia Materials Data
+        const materiData = [
+            // Input Devices
+            { id: 'keyboard', category: 'input', name: 'Keyboard', icon: 'fa-keyboard', desc: 'Perangkat input utama yang berisi papan tombol huruf, angka, dan karakter khusus untuk memasukkan instruksi atau teks ke dalam sistem komputer.', usage: 'Ketik tugas sekolah, menulis pesan, dan mengontrol karakter dalam game.' },
+            { id: 'mouse', category: 'input', name: 'Mouse', icon: 'fa-mouse', desc: 'Perangkat penunjuk (pointing device) yang menggerakkan kursor di layar untuk memilih objek, membuka aplikasi, atau mengoperasikan antarmuka grafis.', usage: 'Menglik ikon aplikasi, melakukan drag-and-drop file, dan membidik sasaran game.' },
+            { id: 'scanner', category: 'input', name: 'Scanner', icon: 'fa-print', desc: 'Perangkat yang berfungsi membaca dokumen fisik (kertas/foto) dan mengubahnya menjadi format digital (gambar atau PDF) di komputer.', usage: 'Mengubah lembar tugas atau sertifikat fisik menjadi file digital.' },
+            { id: 'microphone', category: 'input', name: 'Microphone', icon: 'fa-microphone', desc: 'Perangkat lunak penangkap gelombang suara fisik dan mengonversinya menjadi sinyal audio digital.', usage: 'Berbicara saat Google Meet, merekam suara, atau voice chat di MMORPG.' },
+            { id: 'webcam', category: 'input', name: 'Webcam', icon: 'fa-video', desc: 'Kamera digital terhubung ke komputer untuk menangkap citra visual atau video secara langsung (real-time).', usage: 'Tatap muka saat sekolah daring atau streaming video.' },
+
+            // Process Devices
+            { id: 'cpu', category: 'proses', name: 'CPU (Processor)', icon: 'fa-microchip', desc: 'Otak utama komputer yang mengeksekusi instruksi aritmatika, logika, dan mengkoordinasikan seluruh aktivitas hardware.', usage: 'Memproses seluruh kalkulasi sistem mulai dari booting hingga aplikasi berat.' },
+            { id: 'gpu', category: 'proses', name: 'GPU (VGA Card)', icon: 'fa-compact-disc', desc: 'Perangkat pemroses khusus grafik 2D/3D yang merender visual tampilan untuk dikirimkan ke monitor.', usage: 'Menjalankan game 3D resolusi tinggi dan rendering video editing.' },
+            { id: 'motherboard', category: 'proses', name: 'Motherboard', icon: 'fa-chess-board', desc: 'Papan sirkuit utama tempat menghubungkan seluruh komponen komputer seperti CPU, RAM, GPU, dan penyimpanan.', usage: 'Menjadi jalur komunikasi utama antarkomponen perangkat keras.' },
+            { id: 'ram', category: 'proses', name: 'RAM (Memory)', icon: 'fa-memory', desc: 'Memori penyimpanan sementara bermuatan cepat (volatil) yang menyimpan data program saat sedang dijalankan.', usage: 'Memungkinkan multitasking membuka banyak aplikasi sekaligus tanpa lag.' },
+
+            // Output Devices
+            { id: 'monitor', category: 'output', name: 'Monitor', icon: 'fa-desktop', desc: 'Perangkat luaran visual yang menampilkan hasil olahan data komputer dalam bentuk piksel teks, gambar, atau video.', usage: 'Melihat tampilan sistem operasi, menonton video, dan bermain game.' },
+            { id: 'printer', category: 'output', name: 'Printer', icon: 'fa-print', desc: 'Perangkat output cetak yang mengubah file teks/gambar digital menjadi fisik di kertas.', usage: 'Mencetak hasil dokumen cetak tugas sekolah atau foto.' },
+            { id: 'speaker', category: 'output', name: 'Speaker', icon: 'fa-volume-high', desc: 'Perangkat yang mengolah sinyal audio digital menjadi gelombang suara yang dapat didengar telinga manusia.', usage: 'Mendengarkan musik, efek suara game, dan audio pembelajaran.' },
+            { id: 'projector', category: 'output', name: 'Proyektor', icon: 'fa-lightbulb', desc: 'Perangkat pemancar cahaya yang memproyeksikan tampilan layar komputer ke dinding atau layar lebar.', usage: 'Presentasi kelompok di depan kelas SMP.' },
+
+            // Storage Devices
+            { id: 'hdd', category: 'storage', name: 'Harddisk (HDD)', icon: 'fa-hard-drive', desc: 'Media penyimpanan permanen (non-volatile) berbasis piringan magnetik berkapasitas besar.', usage: 'Menyimpan sistem operasi Windows/Linux, installer aplikasi, dan file arsip.' },
+            { id: 'ssd', category: 'storage', name: 'SSD (Solid State Drive)', icon: 'fa-bolt', desc: 'Media penyimpanan permanen modern berbasis sirkuit mikrochip berkecepatan baca-tulis jauh melebihi HDD.', usage: 'Mempercepat kecepatan booting komputer dan loading aplikasi/game.' },
+            { id: 'flashdisk', category: 'storage', name: 'Flashdisk USB', icon: 'fa-usb', desc: 'Media penyimpanan portabel berukuran kecil yang mudah dibawa dan dihubungkan via port USB.', usage: 'Memindahkan file data antar-komputer sekolah dan rumah.' },
+            { id: 'sdcard', category: 'storage', name: 'Memory Card (SD)', icon: 'fa-sd-card', desc: 'Kartu memori fisik portabel berukuran sangat ringkas.', usage: 'Menyimpan foto pada kamera digital atau ekspansi memori tablet.' },
+
+            // Supporting Devices
+            { id: 'powersupply', category: 'pendukung', name: 'Power Supply (PSU)', icon: 'fa-plug', desc: 'Komponen yang mengubah arus listrik AC rumah menjadi arus DC stabil untuk menyuplai daya seluruh hardware.', usage: 'Memberikan aliran listrik yang aman untuk motherboard, CPU, dan GPU.' },
+            { id: 'heatsink', category: 'pendukung', name: 'Heatsink & Fan', icon: 'fa-fan', desc: 'Perangkat pendingin konduktif berbahan aluminium/tembaga yang menyerap dan melepaskan panas dari CPU.', usage: 'Mencegah overheating (panas berlebih) pada prosessor komputer.' },
+            { id: 'casing', category: 'pendukung', name: 'Casing PC', icon: 'fa-box', desc: 'Wadah atau kerangka pelindung fisik luar tempat menempelnya seluruh komponen internal hardware.', usage: 'Melindungi komponen dari debu, kotoran, dan benturan fisik.' }
+        ];
+
+        // 20 Battle Quiz Questions Data
+        const quizQuestions = [
+            { q: "Komponen komputer yang dijuluki sebagai 'Otak Komputer' dan bertugas memproses instruksi aritmatika adalah...", options: ["RAM", "CPU", "Harddisk", "Power Supply"], answer: 1, category: "Perangkat Proses", exp: "CPU (Central Processing Unit) adalah pusat pemrosesan utama seluruh perintah sistem." },
+            { q: "Manakah di bawah ini yang tergolong ke dalam perangkat masukan (Input Device)?", options: ["Monitor", "Printer", "Keyboard", "Speaker"], answer: 2, category: "Perangkat Input", exp: "Keyboard digunakan untuk memasukkan data teks dan perintah ke dalam komputer." },
+            { q: "Perangkat penyimpanan yang bersifat sementara (volatil) dan data di dalamnya hilang saat listrik mati adalah...", options: ["SSD", "RAM", "Flashdisk", "Harddisk"], answer: 1, category: "Perangkat Proses", exp: "RAM menyimpan data aplikasi yang sedang aktif secara sementara." },
+            { q: "Perangkat output yang berfungsi mengubah sinyal audio digital menjadi gelombang suara adalah...", options: ["Microphone", "Webcam", "Speaker", "Scanner"], answer: 2, category: "Perangkat Output", exp: "Speaker memancarkan luaran suara dari komputer." },
+            { q: "Teknologi media penyimpanan modern tanpa piringan berputar yang memiliki kecepatan baca-tulis tinggi adalah...", options: ["SSD", "HDD", "Disket", "CD-ROM"], answer: 0, category: "Penyimpanan", exp: "SSD menggunakan chip memori flash untuk transfer data jauh lebih cepat dari HDD." },
+            { q: "Papan sirkuit utama tempat menancapnya komponen CPU, RAM, dan VGA card disebut...", options: ["Casing", "Motherboard", "Power Supply", "Heatsink"], answer: 1, category: "Perangkat Proses", exp: "Motherboard menghubungkan seluruh jalur komunikasi hardware." },
+            { q: "Perangkat pemroses yang menangani tampilan visual dan grafik 3D dalam game adalah...", options: ["Sound Card", "GPU / VGA Card", "Network Card", "Power Supply"], answer: 1, category: "Perangkat Proses", exp: "GPU (Graphics Processing Unit) memproses efek grafik visual." },
+            { q: "Perangkat input yang berfungsi mengonversi suara fisik manusia menjadi data digital adalah...", options: ["Microphone", "Speaker", "Headphone", "Webcam"], answer: 0, category: "Perangkat Input", exp: "Microphone menangkap getaran suara luar." },
+            { q: "Berikut ini yang merupakan perangkat pendukung untuk mendinginkan suhu CPU adalah...", options: ["Power Supply", "Heatsink & Fan", "Casing", "RAM"], answer: 1, category: "Pendukung", exp: "Heatsink menyerap panas berlebih pada prosessor." },
+            { q: "Perangkat luaran yang digunakan untuk menampilkan dokumen digital ke bentuk kertas cetak adalah...", options: ["Scanner", "Plotter/Printer", "Monitor", "Projector"], answer: 1, category: "Perangkat Output", exp: "Printer mencetak data ke fisik kertas." },
+            { q: "Manakah perangkat yang berfungsi mengubah dokumen kertas menjadi file foto/PDF di komputer?", options: ["Printer", "Scanner", "Webcam", "Monitor"], answer: 1, category: "Perangkat Input", exp: "Scanner mentransfer fisik kertas menjadi file digital." },
+            { q: "Perangkat penyedia dan pengatur daya listrik searah (DC) untuk seluruh komponen komputer adalah...", options: ["Power Supply (PSU)", "Motherboard", "Stabilizer", "CPU"], answer: 0, category: "Pendukung", exp: "PSU menyuplai listrik stabil ke semua perangkat." },
+            { q: "Di bawah ini yang tergolong perangkat penyimpanan portabel berbasis port USB adalah...", options: ["Harddisk Internal", "Flashdisk", "RAM", "ROM"], answer: 1, category: "Penyimpanan", exp: "Flashdisk USB mudah dipindahkan antar komputer." },
+            { q: "Perangkat yang berguna memproyeksikan visual layar komputer ke dinding lebar saat presentasi adalah...", options: ["Monitor", "Proyektor", "Webcam", "Scanner"], answer: 1, category: "Perangkat Output", exp: "Proyektor memancarkan gambar layar ke area luas." },
+            { q: "Komponen luar tempat meletakkan seluruh komponen hardware agar aman dari debu adalah...", options: ["Motherboard", "Casing PC", "Rack Server", "Heatsink"], answer: 1, category: "Pendukung", exp: "Casing melindungi seluruh perangkat keras dalam satu wadah." },
+            { q: "Apakah fungsi utama dari kursor mouse?", options: ["Mencetak teks", "Menggerakkan penunjuk navigasi di layar", "Memproses audio", "Menyimpan file"], answer: 1, category: "Perangkat Input", exp: "Mouse mengontrol kursor navigasi." },
+            { q: "Kamera kecil yang dipasang di atas monitor untuk menangkap video saat meeting online adalah...", options: ["Webcam", "DSLR", "Scanner", "Sensor Optical"], answer: 0, category: "Perangkat Input", exp: "Webcam mengirim input video secara langsung." },
+            { q: "Di bawah ini yang TIDAK termasuk perangkat masukan (Input) adalah...", options: ["Keyboard", "Mouse", "Speaker", "Scanner"], answer: 2, category: "Perangkat Output", exp: "Speaker adalah perangkat output (keluaran suara)." },
+            { q: "Data yang disimpan dalam Harddisk (HDD) bersifat non-volatile, artinya...", options: ["Hilang saat listrik mati", "Tersimpan permanen meskipun listrik mati", "Hanya bisa dibaca sekali", "Berukuran sangat kecil"], answer: 1, category: "Penyimpanan", exp: "Non-volatile berarti data tetap aman walau arus mati." },
+            { q: "Hubungan antara RAM dan CPU saat menjalankan aplikasi game adalah...", options: ["RAM membuang file game", "RAM menyediakan data sementara cepat yang dibutuhkan CPU", "CPU menyimpan file game di RAM secara permanen", "RAM tidak berhubungan dengan CPU"], answer: 1, category: "Perangkat Proses", exp: "RAM memasok data kecepatan tinggi agar CPU tidak menunggu lama." }
+        ];
+
+        // Drag & Drop Match Data
+        const puzzlePairs = [
+            { id: 'p1', name: 'Keyboard', category: 'Input', targetText: 'Memasukkan data teks & instruksi huruf/angka' },
+            { id: 'p2', name: 'CPU', category: 'Proses', targetText: 'Mengolah seluruh kalkulasi & instruksi sistem' },
+            { id: 'p3', name: 'Monitor', category: 'Output', targetText: 'Menampilkan visual grafik hasil olahan data' },
+            { id: 'p4', name: 'SSD', category: 'Storage', targetText: 'Menyimpan file & sistem operasi secara permanen' },
+            { id: 'p5', name: 'Speaker', category: 'Output', targetText: 'Mengeluarkan sinyal luaran berupa suara' },
+            { id: 'p6', name: 'RAM', category: 'Proses', targetText: 'Menyimpan data aplikasi sementara yang sedang aktif' }
+        ];
+
+
+        /* ================= SPA NAVIGATION ================= */
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-page').forEach(page => page.classList.add('hidden'));
+            const activePage = document.getElementById(`page-${tabId}`);
+            if(activePage) activePage.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-ancientGold/20', 'border-ancientGold', 'shadow-gold-glow', 'text-ancientGold');
+                btn.classList.add('text-slate-300');
+            });
+
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-ancientGold/20', 'border-ancientGold', 'shadow-gold-glow', 'text-ancientGold');
+                activeBtn.classList.remove('text-slate-300');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        /* ================= FACTION SELECTION LOGIC ================= */
+        function selectFaction(faction) {
+            activeFaction = faction;
+            const cardSylvan = document.getElementById('card-sylvan');
+            const cardBellator = document.getElementById('card-bellator');
+            const cardAccretia = document.getElementById('card-accretia');
+            const nameDisp = document.getElementById('faction-name-display');
+            const descDisp = document.getElementById('faction-desc-display');
+            const avatarDisp = document.getElementById('avatar-display');
+
+            // Reset borders
+            [cardSylvan, cardBellator, cardAccretia].forEach(c => c.classList.remove('ring-4', 'ring-ancientGold', 'scale-105'));
+
+            if(faction === 'sylvan') {
+                cardSylvan.classList.add('ring-4', 'ring-emerald-400');
+                nameDisp.innerText = 'SYLVAN — Elf Guardian';
+                nameDisp.className = 'font-header font-bold text-xl text-emerald-400';
+                descDisp.innerText = 'Penjaga Kristal Energi & Logika Kuno Sylvan';
+                avatarDisp.innerHTML = '<i class="fa-solid fa-leaf text-emerald-400"></i>';
+                avatarDisp.className = 'w-16 h-16 rounded-full bg-emerald-900/40 border-2 border-emerald-400 flex items-center justify-center text-3xl shadow-emerald-glow';
+            } else if(faction === 'bellator') {
+                cardBellator.classList.add('ring-4', 'ring-amber-400');
+                nameDisp.innerText = 'BELLATOR — Mechanical Warrior';
+                nameDisp.className = 'font-header font-bold text-xl text-amber-300';
+                descDisp.innerText = 'Ksatria Rekayasa Komputasi Kerajaan';
+                avatarDisp.innerHTML = '<i class="fa-solid fa-shield-cat text-amber-300"></i>';
+                avatarDisp.className = 'w-16 h-16 rounded-full bg-amber-900/40 border-2 border-ancientGold flex items-center justify-center text-3xl shadow-gold-glow';
+            } else if(faction === 'accretia') {
+                cardAccretia.classList.add('ring-4', 'ring-cyan-400');
+                nameDisp.innerText = 'ACCRETIA — Android Legion';
+                nameDisp.className = 'font-header font-bold text-xl text-cyan-300';
+                descDisp.innerText = 'Pasukan Cyborg Presisi Komputasi Tinggi';
+                avatarDisp.innerHTML = '<i class="fa-solid fa-robot text-cyan-300"></i>';
+                avatarDisp.className = 'w-16 h-16 rounded-full bg-cyan-900/40 border-2 border-cyan-400 flex items-center justify-center text-3xl shadow-blue-glow';
+            }
+        }
+
+
+        /* ================= ENCYCLOPEDIA MATERI LOGIC ================= */
+        function renderMateriGrid(filter = 'all') {
+            const grid = document.getElementById('materi-grid');
+            grid.innerHTML = '';
+
+            const items = filter === 'all' ? materiData : materiData.filter(m => m.category === filter);
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-navyCard/90 border border-slate-700/80 hover:border-ancientGold/60 rounded-xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-lg group';
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-lg bg-ancientGold/10 border border-ancientGold/30 group-hover:border-ancientGold flex items-center justify-center text-ancientGold text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid ${item.icon}"></i>
+                            </div>
+                            <span class="text-[10px] font-tech uppercase font-bold px-2 py-1 bg-darkNavy border border-slate-700 text-emeraldCore rounded">${item.category}</span>
+                        </div>
+                        <div>
+                            <h3 class="font-header font-bold text-lg text-white group-hover:text-ancientGold transition-colors">${item.name}</h3>
+                            <p class="text-xs text-slate-300 line-clamp-3 mt-1 leading-relaxed">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 flex justify-end">
+                        <button onclick="openMateriModal('${item.id}')" class="text-xs font-tech font-bold uppercase text-ancientGold hover:underline flex items-center gap-1">
+                            Detail Komponen <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterMateri(cat) {
+            document.querySelectorAll('.materi-filter-btn').forEach(b => {
+                b.classList.remove('bg-ancientGold', 'text-darkNavy');
+                b.classList.add('bg-navyCard', 'text-slate-300');
+            });
+            event.target.classList.add('bg-ancientGold', 'text-darkNavy');
+            event.target.classList.remove('bg-navyCard', 'text-slate-300');
+            renderMateriGrid(cat);
+        }
+
+        function openMateriModal(itemId) {
+            const item = materiData.find(m => m.id === itemId);
+            if(!item) return;
+
+            document.getElementById('modal-item-name').innerText = item.name;
+            document.getElementById('modal-item-category').innerText = `Kategori: Perangkat ${item.category.toUpperCase()}`;
+            document.getElementById('modal-item-desc').innerText = item.desc;
+            document.getElementById('modal-item-usage').innerText = item.usage;
+            document.getElementById('modal-item-icon').innerHTML = `<i class="fa-solid ${item.icon}"></i>`;
+
+            document.getElementById('materi-modal').classList.remove('hidden');
+        }
+
+        function closeMateriModal() {
+            document.getElementById('materi-modal').classList.add('hidden');
+        }
+
+
+        /* ================= BATTLE QUIZ LOGIC ================= */
+        let currentQuestionIdx = 0;
+        let quizScore = 0;
+        let answered = false;
+
+        function initQuiz() {
+            currentQuestionIdx = 0;
+            quizScore = 0;
+            answered = false;
+            document.getElementById('quiz-box').classList.remove('hidden');
+            document.getElementById('quiz-result-modal').classList.add('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const q = quizQuestions[currentQuestionIdx];
+            
+            document.getElementById('quiz-progress-text').innerText = `${currentQuestionIdx + 1} / ${quizQuestions.length}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIdx + 1) / quizQuestions.length) * 100}%`;
+            document.getElementById('current-score').innerText = quizScore;
+            
+            document.getElementById('quiz-category-tag').innerText = q.category;
+            document.getElementById('quiz-question').innerText = q.q;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.add('hidden');
+
+            const nextBtn = document.getElementById('btn-next-question');
+            nextBtn.disabled = true;
+            nextBtn.className = "px-6 py-2.5 rounded-lg font-tech font-bold uppercase tracking-wider bg-slate-700 text-slate-400 cursor-not-allowed transition-all";
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-option-btn w-full text-left p-4 rounded-xl bg-darkNavy/80 border border-slate-700/80 hover:border-ancientGold/60 hover:bg-slate-800 transition-all font-body text-sm text-slate-200 flex items-center justify-between group";
+                btn.onclick = () => selectAnswer(idx);
+                btn.innerHTML = `
+                    <span class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-navyCard border border-slate-600 group-hover:border-ancientGold flex items-center justify-center font-tech font-bold text-ancientGold text-xs">
+                            ${String.fromCharCode(65 + idx)}
+                        </span>
+                        <span>${opt}</span>
+                    </span>
+                    <i class="option-icon fa-regular fa-circle text-slate-500"></i>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIdx) {
+            if(answered) return;
+            answered = true;
+
+            const q = quizQuestions[currentQuestionIdx];
+            const optionsBtns = document.querySelectorAll('.quiz-option-btn');
+            const feedback = document.getElementById('quiz-feedback');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackText = document.getElementById('feedback-text');
+            const feedbackIcon = document.getElementById('feedback-icon');
+
+            if(selectedIdx === q.answer) {
+                quizScore += 10;
+                document.getElementById('current-score').innerText = quizScore;
+                optionsBtns[selectedIdx].classList.add('border-emerald-500', 'bg-emerald-950/40');
+                optionsBtns[selectedIdx].querySelector('.option-icon').className = "fa-solid fa-circle-check text-emerald-400 text-lg";
+
+                feedback.className = "p-4 rounded-xl border border-emerald-500/40 bg-emerald-950/30 text-emerald-300 flex items-start gap-3 mt-4";
+                feedbackTitle.innerText = "SERANGAN CRITICAL! (JAWABAN BENAR)";
+                feedbackText.innerText = q.exp;
+                feedbackIcon.className = "fa-solid fa-shield-check text-emerald-400 text-xl mt-0.5";
+            } else {
+                optionsBtns[selectedIdx].classList.add('border-red-500', 'bg-red-950/40');
+                optionsBtns[selectedIdx].querySelector('.option-icon').className = "fa-solid fa-circle-xmark text-red-400 text-lg";
+
+                // Highlight correct one
+                optionsBtns[q.answer].classList.add('border-emerald-500', 'bg-emerald-950/40');
+
+                feedback.className = "p-4 rounded-xl border border-red-500/40 bg-red-950/30 text-red-300 flex items-start gap-3 mt-4";
+                feedbackTitle.innerText = "SERANGAN TERHINDAR! (JAWABAN SALAH)";
+                feedbackText.innerText = `Jawaban tepat: ${q.options[q.answer]}. ${q.exp}`;
+                feedbackIcon.className = "fa-solid fa-triangle-exclamation text-red-400 text-xl mt-0.5";
+            }
+
+            feedback.classList.remove('hidden');
+
+            const nextBtn = document.getElementById('btn-next-question');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-6 py-2.5 rounded-lg font-tech font-bold uppercase tracking-wider bg-ancientGold text-darkNavy hover:bg-yellow-400 shadow-gold-glow cursor-pointer transition-all";
+        }
+
+        function nextQuestion() {
+            currentQuestionIdx++;
+            if(currentQuestionIdx < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-box').classList.add('hidden');
+            const modal = document.getElementById('quiz-result-modal');
+            modal.classList.remove('hidden');
+
+            document.getElementById('result-final-score').innerText = `${quizScore} / 200`;
+            document.getElementById('hud-quiz-score').innerText = `${quizScore} Pts`;
+
+            let rank = "Apprentice";
+            let rankColor = "text-slate-400";
+            if(quizScore >= 180) {
+                rank = "HARDWARE MASTER";
+                rankColor = "text-ancientGold";
+            } else if(quizScore >= 150) {
+                rank = "EXPERT TECHNICIAN";
+                rankColor = "text-emerald-400";
+            } else if(quizScore >= 100) {
+                rank = "HARDWARE EXPLORER";
+                rankColor = "text-cyan-400";
+            }
+
+            const rankElem = document.getElementById('result-rank');
+            rankElem.innerText = rank;
+            rankElem.className = `font-header text-2xl font-bold ${rankColor}`;
+
+            // Update completed missions counter
+            completedMissions = Math.max(completedMissions, 3);
+            document.getElementById('hud-completed-missions').innerText = `${completedMissions} / 4`;
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+
+        /* ================= DRAG AND DROP GAME LOGIC ================= */
+        let matchedCount = 0;
+
+        function initDragDropGame() {
+            matchedCount = 0;
+            updatePuzzleStatus();
+
+            const itemsContainer = document.getElementById('drag-items-list');
+            const targetsContainer = document.getElementById('drop-targets-list');
+
+            itemsContainer.innerHTML = '';
+            targetsContainer.innerHTML = '';
+
+            // Shuffle Draggables
+            const shuffledDrags = [...puzzlePairs].sort(() => Math.random() - 0.5);
+            // Shuffle Targets
+            const shuffledTargets = [...puzzlePairs].sort(() => Math.random() - 0.5);
+
+            // Render Draggables
+            shuffledDrags.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'draggable-item p-3.5 rounded-xl bg-darkNavy border-2 border-ancientGold/40 text-ancientGold font-header font-bold text-sm cursor-grab flex items-center justify-between hover:shadow-gold-glow transition-all active:cursor-grabbing';
+                el.draggable = true;
+                el.id = `drag-${item.id}`;
+                el.dataset.id = item.id;
+                el.innerHTML = `
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-grip-vertical text-slate-500"></i>
+                        <span>${item.name}</span>
+                    </span>
+                    <span class="text-[10px] font-tech font-semibold uppercase px-2 py-0.5 rounded bg-navyCard text-emeraldCore">${item.category}</span>
+                `;
+
+                // HTML5 Drag Events
+                el.addEventListener('dragstart', handleDragStart);
+                
+                // Touch Support Events
+                el.addEventListener('touchstart', handleTouchStart, {passive: false});
+                el.addEventListener('touchmove', handleTouchMove, {passive: false});
+                el.addEventListener('touchend', handleTouchEnd);
+
+                itemsContainer.appendChild(el);
+            });
+
+            // Render Drop Targets
+            shuffledTargets.forEach(target => {
+                const zone = document.createElement('div');
+                zone.className = 'drop-target p-4 rounded-xl bg-darkNavy/70 border-2 border-dashed border-slate-700 transition-all flex flex-col justify-center min-h-[70px]';
+                zone.dataset.targetId = target.id;
+                zone.innerHTML = `
+                    <span class="text-xs text-slate-300 font-body">${target.targetText}</span>
+                    <div class="slot-placeholder text-xs font-tech text-slate-500 mt-1 uppercase tracking-widest">[ Tempel Perangkat Di Sini ]</div>
+                `;
+
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+
+                targetsContainer.appendChild(zone);
+            });
+        }
+
+        // HTML5 Drag Handlers
+        let draggedId = null;
+
+        function handleDragStart(e) {
+            draggedId = this.dataset.id;
+            e.dataTransfer.setData('text/plain', this.dataset.id);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            this.classList.add('hovered');
+        }
+
+        function handleDragLeave() {
+            this.classList.remove('hovered');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            this.classList.remove('hovered');
+            const droppedId = e.dataTransfer.getData('text/plain') || draggedId;
+            checkMatch(droppedId, this);
+        }
+
+        // Touch Interaction Logic
+        let activeTouchElem = null;
+
+        function handleTouchStart(e) {
+            activeTouchElem = this;
+            draggedId = this.dataset.id;
+            this.classList.add('opacity-50');
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (!activeTouchElem) return;
+            const touch = e.touches[0];
+            activeTouchElem.style.position = 'fixed';
+            activeTouchElem.style.left = `${touch.clientX - 50}px`;
+            activeTouchElem.style.top = `${touch.clientY - 20}px`;
+            activeTouchElem.style.zIndex = '1000';
+        }
+
+        function handleTouchEnd(e) {
+            if (!activeTouchElem) return;
+            const touch = e.changedTouches[0];
+            activeTouchElem.style.position = 'static';
+            activeTouchElem.classList.remove('opacity-50');
+
+            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.drop-target');
+            if (dropTarget) {
+                checkMatch(draggedId, dropTarget);
+            }
+            activeTouchElem = null;
+        }
+
+        // Check Matching Logic
+        function checkMatch(dragId, targetElem) {
+            const targetId = targetElem.dataset.targetId;
+            if (targetElem.dataset.matched === "true") return;
+
+            if (dragId === targetId) {
+                // Correct Match
+                const dragElem = document.getElementById(`drag-${dragId}`);
+                targetElem.dataset.matched = "true";
+                targetElem.className = 'drop-target p-4 rounded-xl bg-emerald-950/40 border-2 border-emerald-500 transition-all';
+                targetElem.querySelector('.slot-placeholder').innerHTML = `<span class="text-emerald-400 font-bold font-header flex items-center gap-1 mt-1"><i class="fa-solid fa-circle-check"></i> Cocok: ${dragElem.querySelector('span span').innerText}</span>`;
+                
+                dragElem.style.display = 'none';
+                matchedCount++;
+                updatePuzzleStatus();
+
+                if (matchedCount === puzzlePairs.length) {
+                    completedMissions = 4;
+                    document.getElementById('hud-completed-missions').innerText = "4 / 4";
+                }
+            } else {
+                // Wrong Match Feedback
+                targetElem.classList.add('border-red-500');
+                setTimeout(() => {
+                    if (targetElem.dataset.matched !== "true") {
+                        targetElem.classList.remove('border-red-500');
+                    }
+                }, 800);
+            }
+        }
+
+        function updatePuzzleStatus() {
+            const status = document.getElementById('puzzle-score-status');
+            status.innerText = `Skor Puzzle: ${matchedCount} / ${puzzlePairs.length} Cocok`;
+            if (matchedCount === puzzlePairs.length) {
+                status.innerText = "SELAMAT! Inti Sistem Berhasil Direkonstruksi! 🎉";
+            }
+        }
+
+
+        /* ================= ON APPLICATION INITIALIZATION ================= */
+        window.onload = function() {
+            renderMateriGrid('all');
+            initQuiz();
+            initDragDropGame();
+            selectFaction('bellator');
+        };
+    </script>
+</body>
+</html>
